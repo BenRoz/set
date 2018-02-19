@@ -21,16 +21,15 @@ class Board extends React.Component{
     }
 
 
-    cardWasPressed(card){
-        console.log("this",this);
-        console.log("card",card);
-        // console.log("e", e.currentTarget);
-        this.state.cardsChoosen.push(card);
+    cardWasPressed(cardIndex){
+        let selectedCardsArray = this.state.selectedCardsArray;
+        selectedCardsArray[cardIndex].selected = true;
+        this.state.cardsChoosen.push(selectedCardsArray[cardIndex]);
         this.setState({
-            cardsChoosen: this.state.cardsChoosen
+            cardsChoosen: this.state.cardsChoosen,
+            selectedCardsArray
         })
         console.log(this.state.cardsChoosen)
-
         if (this.state.cardsChoosen.length == 3){
             console.log("send data to logic to check for set ")
             if (set.checkIfSet(this.state.cardsChoosen)) {
@@ -40,10 +39,15 @@ class Board extends React.Component{
             else {
                 alert("this is not a set");
             }
+
+            let selectedCardsArray = this.state.selectedCardsArray;
+            selectedCardsArray.forEach(card => {
+                card.selected = false;
+            })
             this.setState({
+                selectedCardsArray,
                 cardsChoosen: []
             })
-
         }
     }
 
@@ -108,7 +112,8 @@ class Board extends React.Component{
                 color:color,
                 shading:shading,
                 index: i,
-                pic: img_url
+                pic: img_url,
+                selected: false
             }
 
             cards.push(card);
@@ -136,14 +141,13 @@ class Board extends React.Component{
     }
 
     creatingRows(cardsArray) {
-        var c = [];
+        let selectedCards = [];
         for (var z = 0; z<cardsArray.length; z+=4) {
             var end = z+4;
             var row = cardsArray.slice(z, end);
-            c.push(row);
+            selectedCards.push(row);
         }
-        console.log("c:")
-        console.log(c)
+        console.log("selectedCards",selectedCards)
           var fourInRow = c.map(x => <Row key={`row${z + 1}`} value={x}> </Row>);
         return c
     }
@@ -151,8 +155,8 @@ class Board extends React.Component{
     createRow(start, count) {
         // console.log(start,  count);
         return this.state.selectedCardsArray.slice(start, start+count)
-            .map(x => <Card key={this.state.selectedCardsArray.indexOf(x)} pic={x.pic} color={x.color} number={x.number}
-                            shape={x.shape} shading={x.shading} onClick={this.cardWasPressed}/>)
+            .map(x => <Card key={this.state.selectedCardsArray.indexOf(x)} index={this.state.selectedCardsArray.indexOf(x)} pic={x.pic} color={x.color} number={x.number}
+                            shape={x.shape} shading={x.shading} selected={x.selected} onClick={this.cardWasPressed}/>)
 
     }
 
@@ -179,38 +183,15 @@ class Board extends React.Component{
 class Card extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isSelected : false,
-            numberOfCardsSelected: 0
-        }
-    this.attachProps=this.attachProps.bind(this);
+        this.attachProps=this.attachProps.bind(this);
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //     if (!nextProps.isSelected) {
-    //         this.setState({ isSelected: false });
-    //     }
-    // }
     attachProps(){
-        var num = this.state.numberOfCardsSelected + 1
-        this.setState({
-            isSelected : true,
-        });
-        let card={
-            shape: this.props.shape,
-            color: this.props.color,
-            number: this.props.number,
-            shading: this.props.shading,
-            pic: this.props.pic,
-            index : this.props.key
-        }
-        this.props.onClick(card)
-
-
+        this.props.onClick(this.props.index)
     }
 
     render(){
-        var class_name = this.state.isSelected ? "card selected" : "card" ;
+        var class_name = this.props.selected ? "card selected" : "card" ;
          return (
          <div className={class_name} onClick={this.attachProps}>
                 <img src={this.props.pic}/>
