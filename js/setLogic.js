@@ -1,9 +1,9 @@
 window.set={}
 
 set.checkIfSet = function (cards) {
-        console.log(cards[0].shape)
-        console.log(cards[1].shape)
-        console.log(cards[2].shape)
+        console.log(cards[0].shape);
+        console.log(cards[1].shape);
+        console.log(cards[2].shape);
 
 
         if (
@@ -12,8 +12,8 @@ set.checkIfSet = function (cards) {
                 ( (cards[0].number === cards[1].number && cards[0].number === cards[2].number) || (cards[0].number !== cards[1].number && cards[0].number  !== cards[2].number && cards[1].number  !== cards[2].number ) ) &&
                 ( (cards[0].shading === cards[1].shading && cards[0].shading === cards[2].shading) || (cards[0].shading !== cards[1].shading && cards[0].shading  !== cards[2].shading && cards[1].shading  !== cards[2].shading ) )
         ){
-            return true;
-        }else{
-            return false; }
+            return true; }
+
+        return false;
 };
 

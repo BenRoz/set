@@ -2,11 +2,11 @@
 class Board extends React.Component{
     constructor(props){
         super(props);
-        var cards = this.charectaraizeCards();
+        let cards = this.charectaraizeCards();
         this.state={
             cardsChoosen : [],
             selectedCardsArray : this.chooseCardsFromDeck(cards)
-        }
+        };
         this.cardWasPressed = this.cardWasPressed.bind(this);
         this.creatingRows = this.creatingRows.bind(this);
         this.newGame = this.newGame.bind(this);
@@ -28,12 +28,12 @@ class Board extends React.Component{
         this.setState({
             cardsChoosen: this.state.cardsChoosen,
             selectedCardsArray
-        })
-        console.log(this.state.cardsChoosen)
-        if (this.state.cardsChoosen.length == 3){
-            console.log("send data to logic to check for set ")
+        });
+        console.log(this.state.cardsChoosen);
+        if (this.state.cardsChoosen.length === 3){
+            console.log("send data to logic to check for set ");
             if (set.checkIfSet(this.state.cardsChoosen)) {
-                console.log(set.checkIfSet(this.state.cardsChoosen))
+                console.log(set.checkIfSet(this.state.cardsChoosen));
                 alert("Yay! a set");
             }
             else {
@@ -43,7 +43,7 @@ class Board extends React.Component{
             let selectedCardsArray = this.state.selectedCardsArray;
             selectedCardsArray.forEach(card => {
                 card.selected = false;
-            })
+            });
             this.setState({
                 selectedCardsArray,
                 cardsChoosen: []
@@ -52,14 +52,14 @@ class Board extends React.Component{
     }
 
     charectaraizeCards(){
-        var cards =  [];
-        var url = 'https://puzzles.setgame.com/images/setcards/small/';
-        var passedNine = 1;
-        var colors = ['red','purple','green'];
-        var currColorIndex = 0;
+        let cards =  [];
+        let url = 'https://puzzles.setgame.com/images/setcards/small/';
+        let passedNine = 1;
+        let colors = ['red','purple','green'];
+        let currColorIndex = 0;
 
-        for (var i=1; i<=81; i++){
-            var color, shape, shading,number;
+        for (let i=1; i<=81; i++){
+            let color, shape, shading,number;
             if (i>=1 && i<=27){
                 shading = 'solid';
             }
@@ -104,9 +104,9 @@ class Board extends React.Component{
                 number = '2';
             }
 
-            var num = i < 10 ? '0' + i : i;
-            var img_url = url + num + '.gif';
-            var card = {
+            let num = i < 10 ? '0' + i : i;
+            let img_url = url + num + '.gif';
+            let card = {
                 shape:shape,
                 number:number,
                 color:color,
@@ -123,12 +123,12 @@ class Board extends React.Component{
     }
 
     chooseCardsFromDeck(cards){
-        var numOfCardsToRenderBoard = 12;
-        var selectedCards = []
+        let numOfCardsToRenderBoard = 12;
+        let selectedCards = []
         //randomly choosing 12 cards
-        for (var z=0; z<numOfCardsToRenderBoard; z++) {
-            var indexToRemove = Math.floor(Math.random() * cards.length);
-            var selectedCard = cards[indexToRemove];
+        for (let z=0; z<numOfCardsToRenderBoard; z++) {
+            let indexToRemove = Math.floor(Math.random() * cards.length);
+            let selectedCard = cards[indexToRemove];
             selectedCards.push(selectedCard);
             //remove choosen cards from the array
             if (indexToRemove !== -1) {
@@ -142,13 +142,13 @@ class Board extends React.Component{
 
     creatingRows(cardsArray) {
         let selectedCards = [];
-        for (var z = 0; z<cardsArray.length; z+=4) {
-            var end = z+4;
-            var row = cardsArray.slice(z, end);
+        for (let z = 0; z<cardsArray.length; z+=4) {
+            let end = z+4;
+            let row = cardsArray.slice(z, end);
             selectedCards.push(row);
         }
         console.log("selectedCards",selectedCards)
-          var fourInRow = c.map(x => <Row key={`row${z + 1}`} value={x}> </Row>);
+          let fourInRow = c.map(x => <Row key={`row${z + 1}`} value={x}> </Row>);
         return c
     }
 
@@ -163,7 +163,7 @@ class Board extends React.Component{
     createRows() {
         const rows = this.state.selectedCardsArray.length / 4;
         const cardRows =[];
-        for (var i= 0; i < rows; ++i) {
+        for (let i= 0; i < rows; ++i) {
             cardRows.push(<Row key={i}>{this.createRow(i*4, 4)}</Row>);
         }
         return cardRows;
@@ -191,7 +191,7 @@ class Card extends React.Component {
     }
 
     render(){
-        var class_name = this.props.selected ? "card selected" : "card" ;
+        let class_name = this.props.selected ? "card selected" : "card" ;
          return (
          <div className={class_name} onClick={this.attachProps}>
                 <img src={this.props.pic}/>

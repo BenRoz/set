@@ -8,14 +8,13 @@
     margin: 10px;
 }
 .card.selected{
-    border: 2px solid red;
-    transform: scale(1.01)
+    border: 1px solid red;
+    transform: scale(1.00)
 }
 
 .board{
     text-align: center;
 }
-
 
 .header{
     font-size: 51px;
